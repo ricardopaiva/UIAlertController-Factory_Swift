@@ -10,6 +10,10 @@ import UIKit
 
 extension UIAlertController {
     
+    struct LocalizationIdentifiers {
+        static let okIdentifierKey = "OK"
+    }
+
     /**
      *  Presents a AlertController with a title, a message and a single button.
      *
@@ -21,7 +25,12 @@ extension UIAlertController {
      *  @param completion               completion block
      */
     
-    class func presentAlert(in presentingViewController: UIViewController, title: String, message: String?, buttonTitle: String, preferredStyle alertControllerStyle: UIAlertController.Style, completion: (() -> Void)? = nil) {
+    class func presentAlert(in presentingViewController: UIViewController,
+                            title: String,
+                            message: String?,
+                            buttonTitle: String = LocalizationIdentifiers.okIdentifierKey.localized(),
+                            preferredStyle alertControllerStyle: UIAlertController.Style = .alert,
+                            completion: (() -> Void)? = nil) {
         
         //    if ([UIAlertController class]) {  // iOS 8 or above
         
