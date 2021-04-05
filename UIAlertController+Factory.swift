@@ -24,22 +24,19 @@ extension UIAlertController {
      *  @param alertControllerStyle     alert controller style (UIAlertControllerStyle)
      *  @param completion               completion block
      */
-    
     class func presentAlert(in presentingViewController: UIViewController,
                             title: String,
                             message: String?,
                             buttonTitle: String = LocalizationIdentifiers.okIdentifierKey.localized(),
-                            preferredStyle alertControllerStyle: UIAlertController.Style = .alert,
+                            preferredStyle: UIAlertController.Style = .alert,
                             completion: (() -> Void)? = nil) {
         
-        //    if ([UIAlertController class]) {  // iOS 8 or above
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: alertControllerStyle)
-        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+       
         let okAction = UIAlertAction(title: buttonTitle, style: .default, handler: nil)
         alert.addAction(okAction)
         
-        if alertControllerStyle == .actionSheet {
+        if preferredStyle == .actionSheet {
             let popover: UIPopoverPresentationController? = alert.popoverPresentationController
             if popover != nil {
                 popover?.sourceView = presentingViewController.view
@@ -50,16 +47,6 @@ extension UIAlertController {
         }
         
         presentingViewController.present(alert, animated: true, completion: completion)
-        //    } else {
-        //        //iOS 7 or below
-        //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-        //                                                            message:message
-        //                                                           delegate:self
-        //                                                  cancelButtonTitle:buttonTitle
-        //                                                  otherButtonTitles:nil];
-        //        [alertView show];
-        //    }
-        
     }
     
     /**
@@ -71,25 +58,9 @@ extension UIAlertController {
      *
      *  @return UIAlertController object
      */
-    
-    class func alertInViewController(withTitle title: String, message: String?, style alertControllerStyle: UIAlertController.Style) -> Any? {
-        //    if ([UIAlertController class]) {  // iOS 8 or above
-        
-        let alert = UIAlertController(title: title, message: message, preferredStyle: alertControllerStyle)
-        
+    class func alertInViewController(title: String, message: String?, style: UIAlertController.Style) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
         return alert
-        //    } else {
-        //        //iOS 7 or below
-        //        NSAssert(NO, @"Not prepared for iOS 7 or below");
-        //        return nil;
-        //
-        //        //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-        //        //                                                            message:message
-        //        //                                                           delegate:self
-        //        //                                                  cancelButtonTitle:buttonTitle
-        //        //                                                  otherButtonTitles:nil];
-        //        //        return alertView;
-        //    }
     }
     
     /**
@@ -99,28 +70,16 @@ extension UIAlertController {
      *  @param alertControllerStyle Alert controller style (UIAlertControllerStyle)
      *  @param handler              Action handler block
      */
-    func addAction(withTitle title: String, style alertControllerStyle: UIAlertAction.Style, handler: ((_ action: UIAlertAction?) -> Void)? = nil) {
-        //    if ([UIAlertController class]) {  // iOS 8 or above
-        
-        let newAction = UIAlertAction(title: title, style: alertControllerStyle, handler: handler)
+    func addAction(title: String, style: UIAlertAction.Style, handler: ((_ action: UIAlertAction?) -> Void)? = nil) {
+        let newAction = UIAlertAction(title: title, style: style, handler: handler)
         addAction(newAction)
-        //    } else {
-        //        //iOS 7 or below
-        //        NSAssert(NO, @"Not prepared for iOS 7 or below");
-        //
-        //        //        //iOS 7 or below
-        //        //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-        //        //                                                            message:message
-        //        //                                                           delegate:self
-        //        //                                                  cancelButtonTitle:buttonTitle
-        //        //                                                  otherButtonTitles:nil];
-        //        //        return alertView;
-        //    }
     }
     
-    // MARK: - Private methods
-    class func present(_ alertController: UIAlertController, in presentingViewController: UIViewController, withActionControllerStyle alertControllerStyle: UIAlertController.Style) {
-        if alertControllerStyle == .actionSheet {
+}
+
+private extension UIAlertController {
+    class func present(_ alertController: UIAlertController, in presentingViewController: UIViewController, style: UIAlertController.Style) {
+        if style == .actionSheet {
             let popover: UIPopoverPresentationController? = alertController.popoverPresentationController
             if popover != nil {
                 popover?.sourceView = presentingViewController.view
@@ -131,5 +90,4 @@ extension UIAlertController {
         
         presentingViewController.present(alertController, animated: true)
     }
-    
 }
